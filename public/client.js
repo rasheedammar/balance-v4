@@ -2,7 +2,6 @@
 const api1Table = document.getElementById('api1-table');
 const api2Table = document.getElementById('api2-table');
 
-
 // Function to create an account row with a stop bot button
 const createAccountRow = (accountId, accountData) => {
   const tableRow = document.createElement('tr');
@@ -34,23 +33,7 @@ const createAccountRow = (accountId, accountData) => {
   return tableRow;
 };
 
-// Get the current time
-const currentTimeElement = document.getElementById('current-time');
-const now = new Date();
-const formattedTime = now.toLocaleTimeString(); // Format the time as desired
-currentTimeElement.textContent = formattedTime;
-
-// Add an event listener to ensure the DOM has fully loaded
-document.addEventListener('DOMContentLoaded', () => {
-  // Get the current time again after DOM has loaded
-  const currentTimeElement = document.getElementById('current-time');
-  const now = new Date();
-  const formattedTime = now.toLocaleTimeString(); // Format the time as desired
-  currentTimeElement.textContent = formattedTime;
-
-});
-
-
+// Function to fetch data and update the page
 const fetchData = async () => {
   try {
     const response = await fetch('/data'); // Corrected URL here
@@ -86,15 +69,29 @@ const fetchData = async () => {
       const row = createAccountRow(account.id, account);
       api2Table.appendChild(row);
     });
+
+    // Update the "Last Refresh" time
+    const currentTimeElement = document.getElementById('current-time');
+    const now = new Date();
+    const formattedTime = now.toLocaleTimeString(); // Format the time as desired
+    currentTimeElement.textContent = `Last Refresh: ${formattedTime}`;
   } catch (error) {
     console.error('Error fetching account data:', error);
   }
 };
 
-// Call the fetchData function when the page loads
-fetchData();
-
-// Set up a timer to fetch data every 5 minutes (300,000 milliseconds)
-setInterval(() => {
+document.addEventListener('DOMContentLoaded', () => {
+  // Get the current time and update the "Last Refresh" time initially
+  const currentTimeElement = document.getElementById('current-time');
+  const now = new Date();
+  const formattedTime = now.toLocaleTimeString(); // Format the time as desired
+  currentTimeElement.textContent = `Last Refresh: ${formattedTime}`;
+  
+  // Call the fetchData function when the page loads
   fetchData();
-}, 300000); // 5 minutes in milliseconds
+
+  // Set up a timer to fetch data every 5 minutes (300,000 milliseconds)
+  setInterval(() => {
+    fetchData();
+  }, 300000); // 5 minutes in milliseconds
+});
