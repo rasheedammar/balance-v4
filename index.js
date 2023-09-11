@@ -2,14 +2,19 @@ require('dotenv').config();
 const threeCommasAPI = require('3commas-api-node');
 const express = require('express');
 const path = require('path');
-const http = require('http'); // Add this line to import the 'http' module
-
+const http = require('http');
 const TelegramBot = require('node-telegram-bot-api');
-const ALERT_THRESHOLD_PERCENT = 2;
 
+// Import the spawn function from the child_process module
+const { spawn } = require('child_process');
 
+const ALERT_THRESHOLD_PERCENT = 0;
+const botToken = process.env.BOT_TOKEN;
+console.log("BOT_TOKEN:", botToken);
+const chatId = process.env.CHAT_ID;
 const app = express();
 const port = process.env.PORT || 3000;
+const bot = new TelegramBot(botToken, { polling: false });
 
 // Define a route that sends a response (ping)
 app.get('/ping', (req, res) => {
@@ -22,6 +27,28 @@ app.use(express.static(publicDirectoryPath));
 
 // Create an HTTP server
 const server = http.createServer(app);
+
+
+
+
+// Handle /check command
+bot.onText(/\/check/, (msg) => {
+  const chatId = msg.chat.id;
+  bot.sendMessage(chatId, 'Checking balances...');
+
+  checkProcess.stdout.on('data', (data) => {
+    console.log(`check.js output: ${data}`);
+  });
+
+  checkProcess.stderr.on('data', (data) => {
+    console.error(`check.js error: ${data}`);
+  });
+
+  checkProcess.on('close', (code) => {
+    console.log(`check.js process exited with code ${code}`);
+  });
+});
+
 
 
 //amm3ro api10
@@ -77,10 +104,6 @@ const capitalMap = new Map([
 
 
 
-const botToken = '6445954804:AAHpzEgRjQSm09obmx1KzX2l0dJdywgLsqY'; // Replace with your actual Bot token
-const chatId = -1001921538085; // Replace with your actual chat ID
-
-const bot = new TelegramBot(botToken, { polling: false });
 
 function sendAlert(accountId, title, percentage) {
   const message = `${percentage} (${title})`;
@@ -103,8 +126,7 @@ app.get('/data', async (req, res) => {
       32427107, 32428979, 32433201, 31814867,32101635,32470971,32427159,32474224,
     ];
     const api2Ids = [
-      32244363, 32244371,
-      32423630, 32435532,32260429,32476763,
+      32244363, 32244371,32423630, 32435532,32260429,32476763,
     ];
 
 
