@@ -6,13 +6,11 @@
 
   "description": "A description of your project",
 
-  "main": "index.js",
+  "main": "check.js",
 
   "scripts": {
 
-    "start": "node index.js",
-
-    "check": "node check.js"
+    "start": "node check.js" 
 
   },
 
