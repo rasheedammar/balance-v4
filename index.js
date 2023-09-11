@@ -71,7 +71,7 @@ const capitalMap = new Map([
   [32428979, { title: 'G66+1000',strategy: '', capital: 3000 }],
   [32433201, { title: 'G67', strategy: '',capital: 345 }],
   [32423630, { title: 'G98',strategy: '', capital: 427 }],
-  [32435532, { title: 'G72', strategy: '',capital: 2000 }],
+  [32435532, { title: 'G72+600', strategy: '',capital: 2600 }],
  
 ]);
 
