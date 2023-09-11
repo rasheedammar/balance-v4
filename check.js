@@ -5,7 +5,7 @@ const botToken = '6445954804:AAHpzEgRjQSm09obmx1KzX2l0dJdywgLsqY'; // Replace wi
 const alertChatId = 1188152105 ; // Chat ID to send alerts
 const resultsChatId = 1188152105; // Chat ID to send balance check results
 
-const ALERT_THRESHOLD_PERCENT = 0;
+const ALERT_THRESHOLD_PERCENT = 2;
 
 const bot = new TelegramBot(botToken, { polling: true });
 
