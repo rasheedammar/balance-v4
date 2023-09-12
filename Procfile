@@ -1,1 +1,1 @@
-worker: node check.js
+worker: node alerts.js

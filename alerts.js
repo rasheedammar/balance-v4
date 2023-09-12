@@ -1,12 +1,12 @@
 const TelegramBot = require('node-telegram-bot-api');
 const ThreeCommasAPI = require('3commas-api-node');
 require('dotenv').config();
+const cron = require('node-cron');
+
 const botToken = process.env.BOT_TOKEN;
 const alertChatId = process.env.ALERT_CHAT_ID;
-const resultsChatId = process.env.RESULTS_CHAT_ID;
 
-
-const ALERT_THRESHOLD_PERCENT = 2;
+const ALERT_THRESHOLD_PERCENT = 0.2;
 
 const bot = new TelegramBot(botToken, { polling: true });
 
@@ -66,21 +66,48 @@ const capitalMap = new Map([
   [32423630, { title: 'G98',strategy: '', capital: 427 }],
   [32435532, { title: 'G72+600', strategy: '',capital: 2600 }],
 ]);
+
+//async function sendAlert(accountId, title, percentage) {
+  //try {
+   // await bot.sendMessage(alertChatId, `! ${title}  >= ${percentage} %`);
+
+    
+  //} catch (error) {
+   // console.error('Error sending alert to Telegram bot:', error);
+ //// }
+//}
+
 // Function to send a notification
 async function sendAlert(accountId, title, percentage) {
   try {
-    // Send an alert message to the specified chat ID
-    await bot.sendMessage(alertChatId, `Alert !: Account ${accountId} (${title}) exceeded ${ALERT_THRESHOLD_PERCENT}% change: ${percentage}%`);
+    let message = '';
+
+    if (percentage >= 3) {
+      // If the percentage is greater than or equal to 3%, send a special message
+      message = `⚠️ (${title}) ${percentage}%✌️`;
+    } else {
+      // Otherwise, send the regular alert message
+      message = `${title}  >= ${percentage} %`;
+    }
+
+    // Send the alert message to the specified chat ID
+    await bot.sendMessage(alertChatId, message);
   } catch (error) {
     console.error('Error sending alert to Telegram bot:', error);
   }
 }
+
+
+
+
+
 
 // Define the checkBalances function
 async function checkBalances(apiIds, apiId) {
   try {
     // Fetch balances for the specified API ID
     const api = apiId === 'API1' ? threeCommasAPI1 : threeCommasAPI2;
+
     const results = await Promise.all(apiIds.map(async (id) => {
       const account = await api.accountLoadBalances(id);
       const capitalInfo = capitalMap.get(id);
@@ -96,27 +123,29 @@ async function checkBalances(apiIds, apiId) {
       return { id, title: capitalInfo?.title || '', percentage };
     }));
 
-    // Log the results or perform any desired actions
-    console.log(`Balance check results for ${apiId}:`, results);
-
-    // Send the balance check results to the results chat ID
-    await bot.sendMessage(resultsChatId, `Balance check results for ${apiId}:`);
-    for (const result of results) {
-      await bot.sendMessage(resultsChatId, `${result.title}(  ${result.percentage} % )`);
-    }
+    console.log(`Alert check results for ${apiId}:`, results);
   } catch (error) {
-    console.error(`Error checking balances for ${apiId}:`, error);
+    console.error(`Error checking alerts for ${apiId}:`, error);
   }
 }
 
-// Handle /check command for both API1 and API2
-bot.onText(/\/check/, (msg) => {
+// Schedule a cron job to periodically check alerts
+cron.schedule('*/1 * * * *', async () => {
+  console.log('Running Alerts check...');
+
+  // Call the function to check alerts for both APIs
+  checkBalances(api1Ids, 'API1');
+  checkBalances(api2Ids, 'API2');
+});
+
+// Start the bot (you can keep this part if you want to trigger checks manually via the bot)
+bot.onText(/\/alerts/, (msg) => {
   const chatId = msg.chat.id;
-  console.log('Chat ID:', chatId); // Print the chat ID to the console
+  console.log('Chat ID:', chatId);
 
-  bot.sendMessage(chatId, 'Checking balances ...');
+  bot.sendMessage(chatId, 'Checking Alerts...');
 
-  // Call the function to check balances and send alerts for both APIs
+  // Call the function to check alerts for both APIs
   checkBalances(api1Ids, 'API1');
   checkBalances(api2Ids, 'API2');
 });
