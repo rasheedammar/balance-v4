@@ -67,15 +67,6 @@ const capitalMap = new Map([
   [32435532, { title: 'G72+600', strategy: '',capital: 2600 }],
 ]);
 
-//async function sendAlert(accountId, title, percentage) {
-  //try {
-   // await bot.sendMessage(alertChatId, `! ${title}  >= ${percentage} %`);
-
-    
-  //} catch (error) {
-   // console.error('Error sending alert to Telegram bot:', error);
- //// }
-//}
 
 // Function to send a notification
 async function sendAlert(accountId, title, percentage) {
@@ -85,9 +76,12 @@ async function sendAlert(accountId, title, percentage) {
     if (percentage >= 3) {
       // If the percentage is greater than or equal to 3%, send a special message
       message = `⚠️ (${title}) ${percentage}%✌️`;
+    } else if (percentage >= ALERT_THRESHOLD_PERCENT) {
+      // If the percentage is greater than or equal to ALERT_THRESHOLD_PERCENT, send a regular alert message
+      message = `${title} >= ${percentage}%`;
     } else {
-      // Otherwise, send the regular alert message
-      message = `${title}  >= ${percentage} %`;
+      // If neither of the above conditions is met, send a message indicating no alerts
+      message = `No alerts to send for ${title} (${percentage}%).`;
     }
 
     // Send the alert message to the specified chat ID
@@ -96,10 +90,6 @@ async function sendAlert(accountId, title, percentage) {
     console.error('Error sending alert to Telegram bot:', error);
   }
 }
-
-
-
-
 
 
 // Define the checkBalances function
