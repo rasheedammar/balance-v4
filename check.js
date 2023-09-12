@@ -4,10 +4,10 @@ require('dotenv').config();
 const botToken = process.env.BOT_TOKEN;
 const alertChatId = process.env.ALERT_CHAT_ID;
 const resultsChatId = process.env.RESULTS_CHAT_ID;
-const api1Key = process.env.API1_KEY;
-const api1Secret = process.env.API1_SECRET;
-const api2Key = process.env.API2_KEY;
-const api2Secret = process.env.API2_SECRET;
+////const api1Key = process.env.API1_KEY;
+//const api1Secret = process.env.API1_SECRET;
+//const api2Key = process.env.API2_KEY;
+//const api2Secret = process.env.API2_SECRET;
 
 
 //const botToken = '6445954804:AAHpzEgRjQSm09obmx1KzX2l0dJdywgLsqY'; // Replace with your actual Bot token
@@ -19,19 +19,25 @@ const ALERT_THRESHOLD_PERCENT = 2;
 const bot = new TelegramBot(botToken, { polling: true });
 
 
+
+
 // Configuration for API1
-//const threeCommasAPI1 = new ThreeCommasAPI({
+const threeCommasAPI1 = new ThreeCommasAPI({
+  apiKey: process.env.API1_KEY,
+  apiSecret: process.env.API1_SECRET,
   //apiKey: '35c1fd4032924b3aad132a6d135294f8192816f541da44039dcea439f3e6cce3',
   //apiSecret: '25d7622eb5df82eace388295ab8872cdd6b6ea89dfb66bd31dde8ae26cd904c9f32511bdb166baa5b3ac8ddfb181d79e838636ec6baf929a454ad1e96d67e5ffa8d98091d9d51b044122c43638ea0a473688e48832d3a28ba81777bf965a23c5d37b1825',
 
-//});
+});
 
 // Configuration for API2
-//const threeCommasAPI2 = new ThreeCommasAPI({
- // apiKey:'4d92b7d77e504372aa71127afca240acf546cf35d70a4dc79d8cc97b85a397c2',
- /// apiSecret: '43c7fe02916ed459d08b03ef3b45315168a2487e15eedbb34a6fc6a7cd37923c7cfc5d59f120daf2d351e9869bfcef2bc49e40828306f21c1179c229d799afde6862d16d255baca141d36ec3619e37963c66b2e72c3ca0555c3b040b4efee9dccd6d430a',
+const threeCommasAPI2 = new ThreeCommasAPI({
+  apiKey: process.env.API2_KEY,
+  apiSecret: process.env.API2_SECRET,
+  //apiKey:'4d92b7d77e504372aa71127afca240acf546cf35d70a4dc79d8cc97b85a397c2',
+ //apiSecret: '43c7fe02916ed459d08b03ef3b45315168a2487e15eedbb34a6fc6a7cd37923c7cfc5d59f120daf2d351e9869bfcef2bc49e40828306f21c1179c229d799afde6862d16d255baca141d36ec3619e37963c66b2e72c3ca0555c3b040b4efee9dccd6d430a',
 
-//});
+});
 
 
 // Define API IDs and capitalMap

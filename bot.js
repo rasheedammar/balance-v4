@@ -2,7 +2,7 @@ const TelegramBot = require('node-telegram-bot-api');
 const ThreeCommasAPI = require('3commas-api-node');
 
 const botToken = '6445954804:AAHpzEgRjQSm09obmx1KzX2l0dJdywgLsqY'; // Replace with your actual Bot token
-const chatId = -10019218085; // Replace with your actual chat ID
+const chatId = 1188152105; // Replace with your actual chat ID
 
 const bot = new TelegramBot(botToken, { polling: true });
 
@@ -13,6 +13,8 @@ const threeCommasAPI = new ThreeCommasAPI({
 
 // Listen for the /balance command
 bot.onText(/\/balance (.+)/, async (msg, match) => {
+  console.log('Chat ID:', chatId); // Print the chat ID to the console
+
   const chatId = msg.chat.id;
   const userId = msg.from.id;
 
