@@ -1,15 +1,15 @@
 const TelegramBot = require('node-telegram-bot-api');
 const ThreeCommasAPI = require('3commas-api-node');
 
-const botToken = '6445954804:AAHpzEgRjQSm09obmx1KzX2l0dJdywgLsqY'; // Replace with your actual Bot token
-const chatId = 1188152105; // Replace with your actual chat ID
+const botToken = process.env.BOT_TOKEN;
+const chatId = process.env.ALERT_CHAT_ID;
+
 
 const bot = new TelegramBot(botToken, { polling: true });
 
 const threeCommasAPI = new ThreeCommasAPI({
- apiKey: '35c1fd4032924b3aad132a6d135294f8192816f541da44039dcea439f3e6cce3',
-  apiSecret: '25d7622eb5df82eace388295ab8872cdd6b6ea89dfb66bd31dde8ae26cd904c9f32511bdb166baa5b3ac8ddfb181d79e838636ec6baf929a454ad1e96d67e5ffa8d98091d9d51b044122c43638ea0a473688e48832d3a28ba81777bf965a23c5d37b1825',
-});
+  apiKey: process.env.API1_KEY,
+  apiSecret: process.env.API1_SECRET,});
 
 // Listen for the /balance command
 bot.onText(/\/balance (.+)/, async (msg, match) => {
