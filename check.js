@@ -102,7 +102,7 @@ async function checkBalances(apiIds, apiId) {
     // Send the balance check results to the results chat ID
     await bot.sendMessage(resultsChatId, `Balance check results for ${apiId}:`);
     for (const result of results) {
-      await bot.sendMessage(resultsChatId, `Account ID: ${result.id}, Title: ${result.title}, Percentage: ${result.percentage}%`);
+      await bot.sendMessage(resultsChatId, `ID: ${result.id}, ${result.title},${result.percentage}%`);
     }
   } catch (error) {
     console.error(`Error checking balances for ${apiId}:`, error);
