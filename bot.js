@@ -3,6 +3,7 @@ const ThreeCommasAPI = require('3commas-api-node');
 
 const botToken = process.env.BOT_TOKEN;
 const chatId = process.env.ALERT_CHAT_ID;
+const resultsChatId = process.env.RESULTS_CHAT_ID;
 
 
 const bot = new TelegramBot(botToken, { polling: true });

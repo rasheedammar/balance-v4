@@ -70,7 +70,7 @@ const capitalMap = new Map([
 async function sendAlert(accountId, title, percentage) {
   try {
     // Send an alert message to the specified chat ID
-    await bot.sendMessage(alertChatId, `Alert: Account ${accountId} (${title}) exceeded ${ALERT_THRESHOLD_PERCENT}% change: ${percentage}%`);
+    await bot.sendMessage(alertChatId, `Alert !: Account ${accountId} (${title}) exceeded ${ALERT_THRESHOLD_PERCENT}% change: ${percentage}%`);
   } catch (error) {
     console.error('Error sending alert to Telegram bot:', error);
   }
@@ -102,7 +102,7 @@ async function checkBalances(apiIds, apiId) {
     // Send the balance check results to the results chat ID
     await bot.sendMessage(resultsChatId, `Balance check results for ${apiId}:`);
     for (const result of results) {
-      await bot.sendMessage(resultsChatId, `ID: ${result.id}, ${result.title},${result.percentage}%`);
+      await bot.sendMessage(resultsChatId, `${result.title}(  ${result.percentage} % )`);
     }
   } catch (error) {
     console.error(`Error checking balances for ${apiId}:`, error);
@@ -114,7 +114,7 @@ bot.onText(/\/check/, (msg) => {
   const chatId = msg.chat.id;
   console.log('Chat ID:', chatId); // Print the chat ID to the console
 
-  bot.sendMessage(chatId, 'Checking balances for API1 and API2...');
+  bot.sendMessage(chatId, 'Checking balances ...');
 
   // Call the function to check balances and send alerts for both APIs
   checkBalances(api1Ids, 'API1');
