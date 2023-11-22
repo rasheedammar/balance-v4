@@ -42,8 +42,8 @@ const capitalMap = new Map([
   [32474224,{title: 'G126 ',strategy: '2X 15M 0.58%',capital: 1000}], 
   
   [32470971,{title: 'G128 ',strategy: '2X 1H 1%',capital: 1000}], 
-  [32427154, { title: 'G124 ',strategy: '2X 1H 1%', capital: 1000 }],
-
+  //[32427154, { title: 'G124 ',strategy: '2X 1H 1%', capital: 1000 }],
+[32427154, { title: 'G124+300 hs17 +500 b24 ',strategy: '2X 1H 1%', capital: 1000+300+500 }],
   //to 129 [32427159,{title: 'G125 ',strategy: '2X 4H 1%',capital: 1000}], 
   [32101201, { title: 'G9 ',strategy: '2X 4H 1%', capital: 1000 }],
 
