@@ -44,7 +44,7 @@ const capitalMap = new Map([
   [32152427, { title: 'G22 ',strategy: '4X 1H 0.58%', capital: 1000 }],
   [32428979, { title: 'G66',strategy: '', capital: 1360 }],
   [32435532, { title: 'G72+600', strategy: '',capital: 500 }],
-  [32103674, { title: 'G14 ',strategy: 'spot', capital: 2040 }],
+  [32103674, { title: 'G14 ',strategy: 'spot', capital: 2100 }],
   [32103676, { title: 'G14 ',strategy: 'Future', capital: 1007 }],
   [32101635,{title: 'G16 ',strategy: '4X 15M 1% ',capital: 1000}], 
   
